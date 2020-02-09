@@ -1,0 +1,229 @@
+---
+swagger: "2.0"
+info:
+  description: Api Documentation
+  version: "2.0"
+  title: Api Documentation
+  termsOfService: urn:tos
+  contact: {}
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0
+host: localhost:8080
+basePath: /
+tags:
+  - name: employees
+    description: Employees Resource
+  - name: employees-procedure
+    description: Resources to Add Employees Using a Procedure
+  - name: employees-function
+    description: Resources to Add Employees Using a Function
+paths:
+  /employees:
+    get:
+      tags:
+        - employees
+      summary: Get All Employees
+      operationId: getAllEmployeesUsingGET
+      produces:
+        - application/json
+      parameters: []
+      responses:
+        200:
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Employee'
+    delete:
+      tags:
+        - employees
+      summary: Delete All Employees
+      operationId: deleteAllEmployeesUsingDELETE
+      parameters: []
+      responses:
+        204:
+          description: No Content
+  /employees/{id}:
+    get:
+      tags:
+        - employees
+      summary: Get an Employee
+      operationId: getEmployeeUsingGET
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: integer
+          format: int32
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Employee'
+        404:
+          description: Not Found
+    delete:
+      tags:
+        - employees
+      summary: Remove an Employee
+      operationId: removeEmployeeUsingDELETE
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: integer
+          format: int32
+      responses:
+        204:
+          description: No Content
+  /add:
+    put:
+      tags:
+        - employees
+      summary: Add an Employee
+      operationId: addEmployeeUsingPUT
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: employee
+          description: employee
+          required: true
+          schema:
+            $ref: '#/definitions/Employee'
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Employee'
+  /procedure:
+    put:
+      tags:
+        - employees-procedure
+      summary: Add an Employee Using a Procedure
+      description: Invoke a `Procedure` to Create an Employee
+      operationId: procedureEmployeeUsingPUT
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters: []
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Employee'
+  /function:
+    put:
+      tags:
+        - employees-function
+      summary: Add an Employee Using a Function
+      description: Invoke a `Function` to Create an Employee
+      operationId: functionEmployeeUsingPUT
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters: []
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Employee'
+  /named/null:
+    put:
+      tags:
+        - employees-procedure
+      summary: Add an Employee Without a Last Name
+      description: Create an Employee that inserts _**NULL**_ value to the `EMPLOYEE.LAST_NAME` column using a `Named Procedure`.
+      operationId: namedProcedureNullValueEmployeeUsingPUT
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters: []
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Employee'
+  /named/procedure:
+    put:
+      tags:
+        - employees-procedure
+      summary: 'Add an Employee using a Named Procedure'
+      operationId: namedProcedureEmployeeUsingPUT
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters: []
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Employee'
+  /null:
+    put:
+      tags:
+        - employees-procedure
+      summary: 'Add Employee without Last Name Using a Procedure'
+      description: "This inserts _**NULL**_ value to the `EMPLOYEE.LAST_NAME` column using a `Procedure`."
+      operationId: procedureNullValueEmployeeUsingPUT
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters: []
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Employee'
+  /random:
+    put:
+      tags:
+        - employees
+      summary: Add an Employee with Random Attribute Values
+      description: Create an Employee with Randomly populated Attributes.
+      operationId: randomEmployeeUsingPUT
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters: []
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Employee'
+definitions:
+  Employee:
+    type: object
+    properties:
+      createdAt:
+        type: string
+        example: yyyy-MM-dd@HH:mm:ss.SSSZ
+      email:
+        type: string
+      firstName:
+        type: string
+      id:
+        type: integer
+        format: int
+      lastName:
+        type: string
+    title: Employee
+    example:
+      createdAt: yyyy-MM-dd@HH:mm:ss.SSSZ
+      firstName: firstName
+      lastName: lastName
+      id: 0
+      email: email
