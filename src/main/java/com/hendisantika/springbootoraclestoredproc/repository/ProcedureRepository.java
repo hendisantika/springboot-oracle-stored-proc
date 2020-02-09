@@ -45,4 +45,22 @@ public class ProcedureRepository {
                 .createdAt((Date) proc.getOutputParameterValue("CREATED_AT"))
                 .build();
     }
+
+    public ProcedureResult addEmployeeThroughNamedStoredProcedureQuery(String firstName, String lastName,
+                                                                       String email) {
+
+        StoredProcedureQuery proc = entityManager.createNamedStoredProcedureQuery(
+                "addEmployeeThroughNamedStoredProcedureQuery");
+        proc.setParameter("FIRST_NAME", firstName);
+        proc.setParameter("LAST_NAME", lastName);
+        proc.setParameter("EMAIL", email);
+
+        proc.execute();
+
+        return ProcedureResult.builder()
+                .email((String) proc.getOutputParameterValue("EMAIL"))
+                .id((Integer) proc.getOutputParameterValue("ID"))
+                .createdAt((Date) proc.getOutputParameterValue("CREATED_AT"))
+                .build();
+    }
 }
