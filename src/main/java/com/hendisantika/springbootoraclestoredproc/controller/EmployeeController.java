@@ -1,5 +1,6 @@
 package com.hendisantika.springbootoraclestoredproc.controller;
 
+import com.github.javafaker.Faker;
 import com.hendisantika.springbootoraclestoredproc.domain.Employee;
 import com.hendisantika.springbootoraclestoredproc.repository.EmployeeRepository;
 import com.hendisantika.springbootoraclestoredproc.repository.FunctionRepository;
@@ -58,6 +59,16 @@ public class EmployeeController {
         employeeRepository.save(employee);
         log.info("Saved : " + employee.toString());
         return employee;
+    }
+
+    private Employee generateEmployee() {
+        Faker faker = new Faker();
+        return Employee.builder()
+                .id(faker.number().numberBetween(100, 9999))
+                .firstName(faker.name().firstName())
+                .lastName(faker.name().lastName())
+                .email(faker.internet().emailAddress())
+                .build();
     }
 
 }
