@@ -156,4 +156,19 @@ public class EmployeeController {
         }
         return ResponseEntity.noContent().build();
     }
+
+    @PutMapping(path = "/named/procedure", produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody
+    Employee namedProcedureEmployee() {
+        log.info("Came inside namedProcedureEmployee");
+        Employee employee = generateEmployee();
+        ProcedureResult procedureResult = procedureRepository.addEmployeeThroughNamedStoredProcedureQuery(
+                employee.getFirstName(), employee.getLastName(), employee.getEmail());
+        employee.setId(procedureResult.getId());
+        employee.setEmail(procedureResult.getEmail());
+        employee.setCreatedAt(procedureResult.getCreatedAt());
+        log.info("Saved : " + employee.toString());
+        return employee;
+    }
+
 }
