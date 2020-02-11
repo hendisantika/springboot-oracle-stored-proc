@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Date;
 import java.util.Random;
 
 /**
@@ -43,6 +44,17 @@ public class EmployeeController {
 
         Random random = new Random();
         employee.setId(random.nextInt());
+        employeeRepository.save(employee);
+        log.info("Saved : " + employee.toString());
+        return employee;
+    }
+
+    @PutMapping(path = "/random", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody
+    Employee randomEmployee() {
+        log.info("Came inside randomEmployee");
+        Employee employee = generateEmployee();
+        employee.setCreatedAt(new Date());
         employeeRepository.save(employee);
         log.info("Saved : " + employee.toString());
         return employee;
