@@ -178,3 +178,16 @@ Irrespective of which way we choose, there are some key aspects/properties we sh
         }
     }
     ```
+
+    ### Testing
+Launch the application and open the home page in a browser to learn more about the APIs, how to test them, and what they do.
+<!---
+1. Perform a _PUT_ request to the endpoint `/add` ![SCREENSHOT](./docs/add.png)
+1. Perform a _PUT_ request to the endpoint `/random` ![SCREENSHOT](./docs/random.png)
+1. Perform a _PUT_ request to the endpoint `/procedure` ![SCREENSHOT](./docs/procedure.png)
+1. Perform a _PUT_ request to the endpoint `/null`. This inserts _NULL_ value to the _**EMPLOYEE.LAST_NAME**_ column ![SCREENSHOT](./docs/null.png)
+1. Perform a _GET_ request to the endpoint `/all` ![SCREENSHOT](./docs/all.png)
+1. Perform a _DELETE_ request to the endpoint `/remove/{id}` ![SCREENSHOT](./docs/remove.png)
+1. Perform a _PUT_ request to the endpoint `/named/procedure` ![SCREENSHOT](./docs/named.png)
+1. Perform a _PUT_ request to the endpoint `/named/null`. This inserts _NULL_ value to the _**EMPLOYEE.LAST_NAME**_ column ![SCREENSHOT](./docs/named-null.png)
+--->
