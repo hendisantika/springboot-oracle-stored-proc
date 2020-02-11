@@ -35,3 +35,49 @@ Irrespective of which way we choose, there are some key aspects/properties we sh
         show-sql: true
         database-platform: org.hibernate.dialect.Oracle10gDialect
     ```
+ 1. In scenarios where the database related beans are configured inside the Java class, refer below
+
+    ```java
+    @Configuration
+    @EnableAutoConfiguration(exclude = {DataSourceAutoConfiguration.class, HibernateJpaAutoConfiguration.class,
+            DataSourceTransactionManagerAutoConfiguration.class})
+    @EnableTransactionManagement
+    @EnableJpaRepositories(basePackages = {"io.pivotal.storedproc.repository"})
+    public class DBConfiguration {
+    
+        @Primary
+        @Bean
+        @ConfigurationProperties(prefix = "spring.datasource")
+        public DataSource dataSource() {
+            return DataSourceBuilder.create().build();
+        }
+    
+        @Primary
+        @Bean
+        LocalContainerEntityManagerFactoryBean entityManagerFactory() {
+    
+            HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
+            vendorAdapter.setGenerateDdl(false);
+            vendorAdapter.setShowSql(true);
+    
+            LocalContainerEntityManagerFactoryBean factoryBean = new LocalContainerEntityManagerFactoryBean();
+            factoryBean.setDataSource(dataSource());
+            factoryBean.setJpaVendorAdapter(vendorAdapter);
+            factoryBean.setPackagesToScan("io.pivotal.storedproc.domain");
+    
+            Properties jpaProperties = new Properties();
+            jpaProperties.put("hibernate.proc.param_null_passing", new Boolean(true));
+            jpaProperties.put("hibernate.implicit_naming_strategy", SpringImplicitNamingStrategy.class.getName());
+            jpaProperties.put("hibernate.physical_naming_strategy", SpringPhysicalNamingStrategy.class.getName());
+            factoryBean.setJpaProperties(jpaProperties);
+    
+            return factoryBean;
+        }
+    
+        @Primary
+        @Bean
+        public PlatformTransactionManager transactionManager(EntityManagerFactory entityManagerFactory) {
+            return new JpaTransactionManager(entityManagerFactory);
+        }
+    }
+    ```
