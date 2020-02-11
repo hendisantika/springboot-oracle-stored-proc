@@ -91,6 +91,21 @@ public class EmployeeController {
         return employee;
     }
 
+    @PutMapping(path = "/null", produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody
+    Employee procedureNullValueEmployee() {
+        log.info("Came inside procedureNullValueEmployee");
+        Employee employee = generateEmployee();
+        employee.setLastName(null);
+        ProcedureResult procedureResult = procedureRepository.addEmployeeThroughProcedure(employee.getFirstName(),
+                employee.getLastName(), employee.getEmail());
+        employee.setId(procedureResult.getId());
+        employee.setEmail(procedureResult.getEmail());
+        employee.setCreatedAt(procedureResult.getCreatedAt());
+        log.info("Saved : " + employee.toString());
+        return employee;
+    }
+
     private Employee generateEmployee() {
         Faker faker = new Faker();
         return Employee.builder()
