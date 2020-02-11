@@ -10,6 +10,8 @@ import com.hendisantika.springbootoraclestoredproc.repository.ProcedureRepositor
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -122,6 +124,13 @@ public class EmployeeController {
     Iterable<Employee> getAllEmployees() {
         log.info("Came inside getAllEmployees");
         return employeeRepository.findAll();
+    }
+
+    @DeleteMapping(path = "/employees", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Void> deleteAllEmployees() {
+        log.info("Came inside deleteAllEmployees");
+        this.employeeRepository.deleteAll();
+        return ResponseEntity.noContent().build();
     }
 
 }
