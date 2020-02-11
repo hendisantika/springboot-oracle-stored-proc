@@ -171,4 +171,19 @@ public class EmployeeController {
         return employee;
     }
 
+    @PutMapping(path = "/named/null", produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody
+    Employee namedProcedureNullValueEmployee() {
+        log.info("Came inside namedProcedureNullValueEmployee");
+        Employee employee = generateEmployee();
+        employee.setLastName(null);
+        ProcedureResult procedureResult = procedureRepository.addEmployeeThroughNamedStoredProcedureQuery(
+                employee.getFirstName(), employee.getLastName(), employee.getEmail());
+        employee.setId(procedureResult.getId());
+        employee.setEmail(procedureResult.getEmail());
+        employee.setCreatedAt(procedureResult.getCreatedAt());
+        log.info("Saved : " + employee.toString());
+        return employee;
+    }
+
 }
