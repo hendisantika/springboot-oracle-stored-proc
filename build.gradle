@@ -26,7 +26,10 @@ dependencies {
     compile group: 'io.swagger.parser.v3', name: 'swagger-parser', version: '2.0.17'
 
 
-    compile files('lib/ojdbc8.jar')
+//    compile files('lib/ojdbc8.jar')
+    // https://mvnrepository.com/artifact/com.oracle/ojdbc8
+    providedCompile group: 'com.oracle', name: 'ojdbc8', version: '18.5.0.0.0'
+
     compile 'com.github.javafaker:javafaker:1.0.1'
     compileOnly('org.projectlombok:lombok')
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
