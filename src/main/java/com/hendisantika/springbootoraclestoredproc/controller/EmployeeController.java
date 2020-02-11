@@ -13,6 +13,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -133,4 +134,13 @@ public class EmployeeController {
         return ResponseEntity.noContent().build();
     }
 
+    @GetMapping(path = "/employees/{id}")
+    public ResponseEntity<Employee> getEmployee(@PathVariable Integer id) {
+        log.info("Came inside getEmployee");
+        Employee employee = employeeRepository.findById(id).orElse(null);
+        if (employee == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(employee);
+    }
 }
