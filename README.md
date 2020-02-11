@@ -81,3 +81,36 @@ Irrespective of which way we choose, there are some key aspects/properties we sh
         }
     }
     ```
+
+ 1. Inside our _@Repository_ class we can declare the stored procedure as follows. In th example below, we have all 3 parameter types i.e. _**IN**_, _**INOUT**_ and _**OUT**_
+
+    ```java
+    @Repository
+    public class ProcedureRepository {
+    
+        @Autowired
+        EntityManager entityManager;
+    
+        public ProcedureResult addEmployeeThroughProcedure(String firstName, String lastName, String email) {
+    
+            StoredProcedureQuery proc = entityManager.createStoredProcedureQuery(
+                    "EMPLOYEEPROCEDURE");
+            proc.registerStoredProcedureParameter("FIRST_NAME", String.class, ParameterMode.IN);
+            proc.registerStoredProcedureParameter("LAST_NAME", String.class, ParameterMode.IN);
+            proc.registerStoredProcedureParameter("EMAIL", String.class, ParameterMode.INOUT);
+            proc.registerStoredProcedureParameter("ID", Integer.class, ParameterMode.OUT);
+            proc.registerStoredProcedureParameter("CREATED_AT", Date.class, ParameterMode.OUT);
+    
+            proc.setParameter("FIRST_NAME", firstName);
+            proc.setParameter("LAST_NAME", lastName);
+            proc.setParameter("EMAIL", email);
+            proc.execute();
+    
+            return ProcedureResult.builder()
+                    .email((String) proc.getOutputParameterValue("EMAIL"))
+                    .id((Integer) proc.getOutputParameterValue("ID"))
+                    .createdAt((Date) proc.getOutputParameterValue("CREATED_AT"))
+                    .build();
+        }
+    }
+    ```
