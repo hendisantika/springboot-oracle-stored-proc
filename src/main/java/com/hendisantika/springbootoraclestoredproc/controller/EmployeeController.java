@@ -2,6 +2,7 @@ package com.hendisantika.springbootoraclestoredproc.controller;
 
 import com.github.javafaker.Faker;
 import com.hendisantika.springbootoraclestoredproc.domain.Employee;
+import com.hendisantika.springbootoraclestoredproc.model.ProcedureResult;
 import com.hendisantika.springbootoraclestoredproc.repository.EmployeeRepository;
 import com.hendisantika.springbootoraclestoredproc.repository.FunctionRepository;
 import com.hendisantika.springbootoraclestoredproc.repository.ProcedureRepository;
@@ -57,6 +58,20 @@ public class EmployeeController {
         Employee employee = generateEmployee();
         employee.setCreatedAt(new Date());
         employeeRepository.save(employee);
+        log.info("Saved : " + employee.toString());
+        return employee;
+    }
+
+    @PutMapping(path = "/procedure", produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody
+    Employee procedureEmployee() {
+        log.info("Came inside procedureEmployee");
+        Employee employee = generateEmployee();
+        ProcedureResult procedureResult = procedureRepository.addEmployeeThroughProcedure(employee.getFirstName(),
+                employee.getLastName(), employee.getEmail());
+        employee.setId(procedureResult.getId());
+        employee.setEmail(procedureResult.getEmail());
+        employee.setCreatedAt(procedureResult.getCreatedAt());
         log.info("Saved : " + employee.toString());
         return employee;
     }
