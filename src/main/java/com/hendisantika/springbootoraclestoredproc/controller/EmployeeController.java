@@ -9,6 +9,7 @@ import com.hendisantika.springbootoraclestoredproc.repository.FunctionRepository
 import com.hendisantika.springbootoraclestoredproc.repository.ProcedureRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -142,5 +143,17 @@ public class EmployeeController {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(employee);
+    }
+
+    @DeleteMapping(path = "/employees/{id}")
+    public ResponseEntity<Void> removeEmployee(@PathVariable Integer id) {
+        log.info("Came inside removeEmployee");
+        try {
+            employeeRepository.deleteById(id);
+        } catch (Exception ex) {
+            log.warn("delete failure", ex);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+        return ResponseEntity.noContent().build();
     }
 }
