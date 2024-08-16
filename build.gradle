@@ -30,7 +30,7 @@ dependencies {
     // https://mvnrepository.com/artifact/com.oracle/ojdbc8
 //    implementation group: 'com.oracle', name: 'ojdbc8', version: '18.5.0.0.0'
 
-    compile 'com.github.javafaker:javafaker:1.0.1'
+    compile 'com.github.javafaker:javafaker:1.0.2'
     compileOnly('org.projectlombok:lombok')
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
